@@ -1,0 +1,6 @@
+Region,RegionA,RegionB,RegionC,RegionD,RegionE
+RegionA,0,1,2,0,3
+RegionB,1,0,4,1,2
+RegionC,2,4,0,5,1
+RegionD,0,1,5,0,2
+RegionE,3,2,1,2,0
