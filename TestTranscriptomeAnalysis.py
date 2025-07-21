@@ -1,13 +1,25 @@
 import sys
+import os
 from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy.stats import pearsonr
 import matplotlib.pyplot as plt
 
-
 # Reads csv table that contains gene expression data
-data = pd.read_csv("expression.csv")
+filename = input("Enter the name of the CSV file that contains regions, C9orf72, and the SOD1 data columns: ")
+
+if os.path.exists(filename) and filename.endswith(".csv"):
+    data = pd.read_csv(filename)
+
+    if(data.empty):
+        print("Does not have the needed data")
+        sys.exit(1)
+
+else:
+    print("File does not exist in folder")
+    sys.exit(1)
+
 
 # Initializes counters
 indexLength = 0
@@ -74,7 +86,19 @@ nameEachRow = np.zeros(len(sod1ValsAct))
 
 
 #accesses the connectome csv file
-data = pd.read_csv("connectome.csv")
+filename = input("Enter the name of the CSV file that contains the regions(Connectome)): ")
+
+if os.path.exists(filename) and filename.endswith(".csv"):
+    data = pd.read_csv(filename) 
+
+    if(data.empty):
+        print("Does not have the needed data")
+        sys.exit(1)
+
+else:
+    print("File does not exist")
+    sys.exit(1)
+
 vals = 0
 sumVals = 0
 index = 0
@@ -99,7 +123,18 @@ actRegionVals = np.empty(len(sod1ValsAct), dtype= object)
 
 #loads a csv of atrophy rates
 
-dataAtrophy = pd.read_csv("atrophy_rates.csv")
+filename = input("Enter the name of the CSV file that contains Atrophy Rates and Regions: ")
+
+if os.path.exists(filename) and filename.endswith(".csv"):
+    dataAtrophy = pd.read_csv(filename)
+
+    if(dataAtrophy.empty):
+        print("Does not have the needed data")
+        sys.exit(1)
+else:
+    print("File does not exist")
+    sys.exit(1)
+
 regionIndex = 0
 atrophyIndex = 0
 for i, j in dataAtrophy.iterrows():
@@ -161,7 +196,7 @@ c9orf72ValsAct = c9orf72ValsAct.astype(float)
 valsEachRow = valsEachRow.astype(float)
 actAtrophyVals = actAtrophyVals.astype(float)
 
-#creates a scatter plot and regression line
+#creates a scatter plot for the correlation values and regression line
 
 slopeSOD1Conn, intercept1 = np.polyfit(sod1ValsAct, valsEachRow, 1)
 regressLine1 = slopeSOD1Conn * sod1ValsAct + intercept1
@@ -206,6 +241,8 @@ plt.title("Basic Scatter Plot")
 plt.xlabel("C9orf72 Values")
 plt.ylabel("Atrophy Values")
 plt.show()
+
+
 
 
 
